@@ -6,16 +6,20 @@ public class CameraMotor : MonoBehaviour
 {
     public GameObject cam;
     public static float cameraSpeed;
+    public static float defaultSpeed = 0.5f / 30f;
     public GameObject pauseScreen;
     public float lastFrame;
+
+    public static float passed;
     // Update is called once per frame
     private void Start()
     {
-        cameraSpeed = 0.5f / 60f;
+        passed = Time.time;
+        cameraSpeed = defaultSpeed;
     }
     void Update()
     {
-        if (Time.time > 3f)
+        if (Time.time - passed > 3f)
         {
             if (!pauseScreen.activeInHierarchy)
             {
@@ -34,5 +38,11 @@ public class CameraMotor : MonoBehaviour
                 }
             }
         }
+    }
+
+    public static void Slow()
+    {
+        cameraSpeed = defaultSpeed;
+        passed = Time.time;
     }
 }

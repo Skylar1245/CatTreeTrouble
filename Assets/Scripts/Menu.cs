@@ -5,28 +5,56 @@ using UnityEngine.UI;
 
 public class Menu : MonoBehaviour
 {
-    public GameObject me;
-
+    public GameObject menu;
     public GameObject scoreDisplay;
     public GameObject pauseButton;
+    public GameObject gameOverDisplay;
+    public GameObject player;
+
+    public Animator fade;
+    private bool over = false;
 
     private void Start()
     {
-        me.SetActive(false);
+        menu.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if(!player.activeInHierarchy && !over)
+        {
+            GameOver();
+            over = true;
+        } else if(player.activeInHierarchy && over)
+        {
+            Switch();
+            over = false;
+        }
     }
     public void Switch()
     {
-        if(me.activeInHierarchy)
+        if(menu.activeInHierarchy)
         {
-            me.SetActive(false);
+            menu.SetActive(false);
             scoreDisplay.SetActive(true);
             pauseButton.SetActive(true);
         } else
         {
-            me.SetActive(true);
+            menu.SetActive(true);
             scoreDisplay.SetActive(false);
             pauseButton.SetActive(false);
 
         }
+    }
+
+    public void GameOver()
+    {
+        
+        menu.SetActive(true);
+        scoreDisplay.SetActive(false);
+        pauseButton.SetActive(false);
+        gameOverDisplay.SetActive(true);
+
+        fade.Play("FadeOut");
     }
 }
